@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/common_margin_dimen"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
+        android:backgroundTint="#262D31"
+        android:background="@drawable/message_shape_left"
+        android:textColor="#D8D9DA"
+        android:padding="14dp"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:visibility="visible"
+        android:id="@+id/tv_bot_message"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_margin="4dp"
+        android:backgroundTint="#056162"
+        android:padding="14dp"
+        android:textColor="#C0D3D4"
+        android:background="@drawable/message_shape"
+        android:textSize="14sp"
+        tools:text="hola soy un texto fghfgh"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#9ABCBD"
+        android:textAlignment="textEnd"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="15:30"/>
+
+    <TextView
+        android:id="@+id/tv_time_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:layout_marginEnd="@dimen/common_min_margin_padding"
+        android:textColor="#9ABCBD"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tv_message"
+        tools:text="15:30"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
