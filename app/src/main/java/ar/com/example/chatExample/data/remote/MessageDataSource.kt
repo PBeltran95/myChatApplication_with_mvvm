@@ -24,12 +24,38 @@ class MessageDataSource @Inject constructor(
     suspend fun getMessagesById(toId: String): Flow<Response<MutableList<Message>>> = callbackFlow {
         val listOfMessages = mutableListOf<Message>()
         var messageReference: Query? = null
+        var secondReference:Query? = null
 
         try {
-            messageReference = fireStore.collection("/messages").orderBy("created_at", Query.Direction.ASCENDING)
+            messageReference = fireStore.collection("/messages").document("$myUserId").collection(toId)
+                .orderBy("created_at", Query.Direction.ASCENDING)
+            secondReference = fireStore.collection("/messages").document(toId).collection("$myUserId")
+                .orderBy("created_at", Query.Direction.ASCENDING)
         } catch (e: Throwable) {
             close(e)
         }
+        val secondSubscription = secondReference?.addSnapshotListener { value, error ->
+            if (value == null) return@addSnapshotListener
+            listOfMessages.clear()
+            try {
+                val messages = value.toObjects(Message::class.java)
+                for (message in messages) {
+                    //This if block gets the messages from my user to my mate
+                    if (message.fromId == myUserId && message.toId == toId) {
+                        listOfMessages.add(message)
+                    }
+                    //This  if block gets the messages from my mate to me.
+                    if (message.toId == myUserId && message.fromId == toId) {
+                        listOfMessages.add(message)
+                    }
+                }
+            }catch (e:Exception){
+                close(e)
+            }
+
+            trySend(Response.Success(listOfMessages))
+        }
+        awaitClose { secondSubscription?.remove() }
 
         val subscription = messageReference?.addSnapshotListener { value, error ->
             if (value == null) return@addSnapshotListener
@@ -58,7 +84,9 @@ class MessageDataSource @Inject constructor(
     suspend fun sendData(messageToSend:String, toId:String ){
         val fromId = auth.currentUser?.uid
         fromId?.let {
-            fireStore.collection("messages").document().set(Message(messageToSend, it, toId = toId)).await()
+            fireStore.collection("/messages").document("$myUserId").collection(toId).document().set(Message(messageToSend, it, toId = toId)).await()
+            fireStore.collection("/messages").document(toId).collection("$myUserId").document().set(Message(messageToSend, it, toId = toId)).await()
+
         }
     }
 
