@@ -1,6 +1,5 @@
 package ar.com.example.chatExample.ui.chat
 
-import android.icu.text.DateFormat.HOUR0_FIELD
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.com.example.chatExample.R
 import ar.com.example.chatExample.data.models.Message
 import ar.com.example.chatExample.databinding.MessageItemBinding
-import com.google.gson.internal.bind.util.ISO8601Utils.format
 import java.text.DateFormat
-import java.text.DateFormat.HOUR0_FIELD
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.time.toDuration
 
 class ChatAdapter: RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 

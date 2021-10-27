@@ -7,17 +7,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import ar.com.example.chatExample.R
+import ar.com.example.chatExample.core.AppConstants
 import ar.com.example.chatExample.core.Response
 import ar.com.example.chatExample.data.models.Message
+import ar.com.example.chatExample.data.models.NotificationData
+import ar.com.example.chatExample.data.models.PushNotification
 import ar.com.example.chatExample.databinding.FragmentChatBinding
 import ar.com.example.chatExample.presentation.auth.MessageViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChatFragment : Fragment(R.layout.fragment_chat) {
-
     private lateinit var binding : FragmentChatBinding
     private val chatAdapter by lazy { ChatAdapter() }
     private val args: ChatFragmentArgs by navArgs()
@@ -31,6 +34,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         sendData()
         recoverMyUserId()
         fetchMessages()
+
     }
     private fun recoverMyUserId() {
         val fireAuth = FirebaseAuth.getInstance().currentUser?.uid
@@ -51,9 +55,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private fun sendData() {
         binding.btnSend.setOnClickListener {
-            val messageToSend = binding.etMessage.text.toString()
-            messageViewModel.sendMessage(messageToSend, args.userId)
-            binding.etMessage.text.clear()
+            if (binding.etMessage.text.isNotEmpty()){
+                val messageToSend = binding.etMessage.text.toString()
+                messageViewModel.sendMessage(messageToSend, args.userId)
+                PushNotification(NotificationData(message = messageToSend), "${AppConstants.TOPIC}/${args.userId}").also {
+                    messageViewModel.sendNotification(it)
+                }
+                binding.etMessage.text.clear()
+            }
         }
     }
 
