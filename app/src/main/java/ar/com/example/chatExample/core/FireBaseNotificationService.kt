@@ -1,5 +1,6 @@
 package ar.com.example.chatExample.core
 
+import ar.com.example.chatExample.application.AppConstants
 import ar.com.example.chatExample.data.models.PushNotification
 import okhttp3.ResponseBody
 import retrofit2.Response

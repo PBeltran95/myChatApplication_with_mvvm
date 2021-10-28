@@ -1,4 +1,4 @@
-package ar.com.example.chatExample.core
+package ar.com.example.chatExample.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

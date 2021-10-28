@@ -7,18 +7,32 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
+import ar.com.example.chatExample.data.preferences.PreferencesProvider
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.random.Random
 
 private const val CHANNEL_ID = "my_channel"
 
+@AndroidEntryPoint
 class FireBaseService : FirebaseMessagingService() {
+
+
+    @Inject
+    lateinit var  sharedPref : PreferencesProvider
+
+    override fun onNewToken(newToken: String) {
+        super.onNewToken(newToken)
+        sharedPref.saveMyToken(newToken)
+    }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -35,7 +49,6 @@ class FireBaseService : FirebaseMessagingService() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
-        val pendingIntent2 = TaskStackBuilder.create(this)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])

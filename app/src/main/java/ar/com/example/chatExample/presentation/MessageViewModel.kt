@@ -1,12 +1,9 @@
-package ar.com.example.chatExample.presentation.auth
+package ar.com.example.chatExample.presentation
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import ar.com.example.chatExample.core.Response
-import ar.com.example.chatExample.data.models.Message
 import ar.com.example.chatExample.data.models.PushNotification
 import ar.com.example.chatExample.repository.messageRepo.MessageRepoImpl
 import dagger.hilt.android.lifecycle.HiltViewModel

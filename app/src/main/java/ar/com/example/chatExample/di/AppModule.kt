@@ -1,6 +1,8 @@
 package ar.com.example.chatExample.di
 
-import ar.com.example.chatExample.core.AppConstants
+import android.content.Context
+import android.content.SharedPreferences
+import ar.com.example.chatExample.application.AppConstants
 import ar.com.example.chatExample.core.FireBaseNotificationService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -8,6 +10,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,5 +39,10 @@ object AppModule {
     @Singleton
     @Provides
     fun providesNotificationService(retrofit: Retrofit) = retrofit.create(FireBaseNotificationService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences =
+        appContext.getSharedPreferences(AppConstants.KEY_MODE, Context.MODE_PRIVATE)
 
 }

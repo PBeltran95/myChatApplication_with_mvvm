@@ -1,4 +1,4 @@
-package ar.com.example.chatExample.core
+package ar.com.example.chatExample.application
 
 object AppConstants {
 
@@ -8,5 +8,7 @@ object AppConstants {
     const val CONTENT_TYPE = "application/json"
 
     const val TOPIC = "/topics"
+
+    const val KEY_MODE = "token"
 
 }

@@ -66,7 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnItemClickLi
     }
 
     override fun onUserClick(user: User) {
-        val action = HomeFragmentDirections.actionHomeFragmentToChatFragment(user.userId, user.userName)
+        val action = HomeFragmentDirections.actionHomeFragmentToChatFragment(user.userId, user.userName, user.userToken)
         findNavController().navigate(action)
     }
 }
