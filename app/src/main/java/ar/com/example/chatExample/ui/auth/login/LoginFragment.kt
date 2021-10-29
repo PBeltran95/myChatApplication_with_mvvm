@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -64,12 +65,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             when(it){
                 is Response.Loading -> {
                     //progressBar
+                    binding.progressBar.isVisible = true
                 }
                 is Response.Success -> {
+                    binding.progressBar.isVisible = false
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 }
                 is Response.Failure -> {
                     //Toast
+                    Toast.makeText(requireContext(), "An error was occurred", Toast.LENGTH_SHORT).show()
                 }
             }
 

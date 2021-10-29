@@ -3,6 +3,7 @@ package ar.com.example.chatExample.ui.chat
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
@@ -41,12 +42,16 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private fun fetchMessages() {
         messageViewModel.getMessages(args.userId).observe(viewLifecycleOwner, Observer {
             when(it){
-                is Response.Loading -> {}
+                is Response.Loading -> {
+                    //I don't know if i have to implement a progressBar because this is a realTime observer...
+                }
                 is Response.Success -> {
                     chatAdapter.setData(it.data)
                     binding.rvMessages.smoothScrollToPosition(it.data.size)
                 }
-                is Response.Failure -> {}
+                is Response.Failure -> {
+                    Toast.makeText(requireContext(), "Error fetching messages", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }

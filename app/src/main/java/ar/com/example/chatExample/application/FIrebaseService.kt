@@ -1,4 +1,4 @@
-package ar.com.example.chatExample
+package ar.com.example.chatExample.application
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,6 +13,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
+import ar.com.example.chatExample.MainActivity
+import ar.com.example.chatExample.R
 import ar.com.example.chatExample.data.preferences.PreferencesProvider
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

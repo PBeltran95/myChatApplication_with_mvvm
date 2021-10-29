@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -38,11 +39,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnItemClickLi
     private fun recoverUsers() {
         viewModel.getAllUsers().observe(viewLifecycleOwner, Observer {
             when(it){
-                is Response.Loading -> {}
+                is Response.Loading -> {
+                    binding.progressBar.isVisible = true
+                    binding.rvHome.isVisible = false
+                }
                 is Response.Success -> {
+                    binding.progressBar.isVisible = false
+                    binding.rvHome.isVisible = true
                     initRecyclerView(it.data)
                 }
-                is Response.Failure -> {}
+                is Response.Failure -> {
+                    Toast.makeText(requireContext(), "Error: ${it.exception}", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
